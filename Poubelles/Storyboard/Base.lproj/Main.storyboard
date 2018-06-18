@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Carte Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="CarteController" customModule="Poubelles" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UT5-2o-NFM">
+                                <rect key="frame" x="0.0" y="747" width="375" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReK-Ds-DLj">
+                                        <rect key="frame" x="8" y="8" width="125" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="125" id="mcW-N0-Qkg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Me Localiser"/>
+                                        <connections>
+                                            <action selector="meLocaliser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aHV-SD-P32"/>
+                                        </connections>
+                                    </button>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0Vu-FN-0ev">
+                                        <rect key="frame" x="141" y="12.333333333333371" width="226" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="9Sl-cX-82m"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Standard"/>
+                                            <segment title="Satellite"/>
+                                            <segment title="Hybride"/>
+                                        </segments>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="segmentChoisi:" destination="BYZ-38-t0r" eventType="valueChanged" id="nSq-8D-MiM"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="ReK-Ds-DLj" firstAttribute="top" secondItem="UT5-2o-NFM" secondAttribute="top" constant="8" id="G5l-hW-3Oc"/>
+                                    <constraint firstItem="ReK-Ds-DLj" firstAttribute="centerY" secondItem="UT5-2o-NFM" secondAttribute="centerY" id="Mdy-mb-KgU"/>
+                                    <constraint firstAttribute="height" constant="50" id="eGd-B3-mdl"/>
+                                    <constraint firstItem="0Vu-FN-0ev" firstAttribute="centerY" secondItem="UT5-2o-NFM" secondAttribute="centerY" id="eO8-CU-ucC"/>
+                                    <constraint firstItem="0Vu-FN-0ev" firstAttribute="leading" secondItem="ReK-Ds-DLj" secondAttribute="trailing" constant="8" id="hWC-nb-egg"/>
+                                    <constraint firstAttribute="bottom" secondItem="ReK-Ds-DLj" secondAttribute="bottom" constant="8" id="lER-0e-hyc"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Vu-FN-0ev" secondAttribute="trailing" constant="8" id="mTP-d7-0zn"/>
+                                    <constraint firstItem="ReK-Ds-DLj" firstAttribute="leading" secondItem="UT5-2o-NFM" secondAttribute="leading" constant="8" id="oTF-hm-7Th"/>
+                                </constraints>
+                            </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Gak-kG-YdD">
+                                <rect key="frame" x="0.0" y="44" width="375" height="653"/>
+                            </mapView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a8Q-jL-l8I">
+                                <rect key="frame" x="0.0" y="697" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="SJL-y9-Zxh"/>
+                                </constraints>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="a8Q-jL-l8I" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8yI-iK-q6b"/>
+                            <constraint firstItem="Gak-kG-YdD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="GEg-Ig-JaH"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Gak-kG-YdD" secondAttribute="trailing" id="HF7-hK-ycv"/>
+                            <constraint firstItem="UT5-2o-NFM" firstAttribute="top" secondItem="a8Q-jL-l8I" secondAttribute="bottom" id="LO8-Ib-H46"/>
+                            <constraint firstItem="a8Q-jL-l8I" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Mf6-yd-sjP"/>
+                            <constraint firstAttribute="bottom" secondItem="UT5-2o-NFM" secondAttribute="bottom" constant="15" id="PBF-pH-jdN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UT5-2o-NFM" secondAttribute="trailing" id="ZqB-aW-aKm"/>
+                            <constraint firstItem="UT5-2o-NFM" firstAttribute="top" secondItem="Gak-kG-YdD" secondAttribute="bottom" constant="50" id="gjd-cD-g3Q"/>
+                            <constraint firstItem="UT5-2o-NFM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nkl-zK-n6H"/>
+                            <constraint firstItem="Gak-kG-YdD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="p3e-Vs-7dI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="carte" destination="Gak-kG-YdD" id="OJ0-4n-IZy"/>
+                        <outlet property="maPositionBouton" destination="ReK-Ds-DLj" id="Ttr-dP-ckV"/>
+                        <outlet property="pickerView" destination="a8Q-jL-l8I" id="fwW-sw-yYI"/>
+                        <outlet property="segment" destination="0Vu-FN-0ev" id="v1E-hp-LAz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

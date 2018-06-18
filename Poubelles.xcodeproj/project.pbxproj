@@ -8,20 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		925C644820D6EF4900E98943 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C644720D6EF4900E98943 /* AppDelegate.swift */; };
-		925C644A20D6EF4900E98943 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C644920D6EF4900E98943 /* ViewController.swift */; };
 		925C644D20D6EF4900E98943 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 925C644B20D6EF4900E98943 /* Main.storyboard */; };
 		925C644F20D6EF4B00E98943 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 925C644E20D6EF4B00E98943 /* Assets.xcassets */; };
 		925C645220D6EF4B00E98943 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 925C645020D6EF4B00E98943 /* LaunchScreen.storyboard */; };
+		925C645E20D6EFEA00E98943 /* CarteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C645D20D6EFEA00E98943 /* CarteController.swift */; };
+		925C646020D6F58500E98943 /* CLLocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C645F20D6F58500E98943 /* CLLocationExtension.swift */; };
+		925C646220D6F5A700E98943 /* AnnotationVue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646120D6F5A700E98943 /* AnnotationVue.swift */; };
+		925C646420D6F5BF00E98943 /* Poubelle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646320D6F5BF00E98943 /* Poubelle.swift */; };
+		925C646620D6F5DC00E98943 /* MonAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646520D6F5DC00E98943 /* MonAnnotation.swift */; };
+		925C646820D6F5F300E98943 /* MonGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646720D6F5F300E98943 /* MonGeocoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		925C644420D6EF4900E98943 /* Poubelles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poubelles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		925C644720D6EF4900E98943 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		925C644920D6EF4900E98943 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		925C644C20D6EF4900E98943 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		925C644E20D6EF4B00E98943 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		925C645120D6EF4B00E98943 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		925C645320D6EF4B00E98943 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		925C645D20D6EFEA00E98943 /* CarteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarteController.swift; sourceTree = "<group>"; };
+		925C645F20D6F58500E98943 /* CLLocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationExtension.swift; sourceTree = "<group>"; };
+		925C646120D6F5A700E98943 /* AnnotationVue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationVue.swift; sourceTree = "<group>"; };
+		925C646320D6F5BF00E98943 /* Poubelle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poubelle.swift; sourceTree = "<group>"; };
+		925C646520D6F5DC00E98943 /* MonAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonAnnotation.swift; sourceTree = "<group>"; };
+		925C646720D6F5F300E98943 /* MonGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonGeocoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +64,51 @@
 		925C644620D6EF4900E98943 /* Poubelles */ = {
 			isa = PBXGroup;
 			children = (
+				925C645C20D6EFA500E98943 /* Storyboard */,
+				925C645920D6EF7400E98943 /* Model */,
+				925C645A20D6EF7E00E98943 /* View */,
+				925C645B20D6EF9200E98943 /* Controller */,
 				925C644720D6EF4900E98943 /* AppDelegate.swift */,
-				925C644920D6EF4900E98943 /* ViewController.swift */,
-				925C644B20D6EF4900E98943 /* Main.storyboard */,
 				925C644E20D6EF4B00E98943 /* Assets.xcassets */,
-				925C645020D6EF4B00E98943 /* LaunchScreen.storyboard */,
 				925C645320D6EF4B00E98943 /* Info.plist */,
 			);
 			path = Poubelles;
+			sourceTree = "<group>";
+		};
+		925C645920D6EF7400E98943 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				925C646320D6F5BF00E98943 /* Poubelle.swift */,
+				925C646520D6F5DC00E98943 /* MonAnnotation.swift */,
+				925C646720D6F5F300E98943 /* MonGeocoder.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		925C645A20D6EF7E00E98943 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				925C646120D6F5A700E98943 /* AnnotationVue.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		925C645B20D6EF9200E98943 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				925C645D20D6EFEA00E98943 /* CarteController.swift */,
+				925C645F20D6F58500E98943 /* CLLocationExtension.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		925C645C20D6EFA500E98943 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				925C645020D6EF4B00E98943 /* LaunchScreen.storyboard */,
+				925C644B20D6EF4900E98943 /* Main.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +182,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				925C644A20D6EF4900E98943 /* ViewController.swift in Sources */,
 				925C644820D6EF4900E98943 /* AppDelegate.swift in Sources */,
+				925C646220D6F5A700E98943 /* AnnotationVue.swift in Sources */,
+				925C646820D6F5F300E98943 /* MonGeocoder.swift in Sources */,
+				925C646020D6F58500E98943 /* CLLocationExtension.swift in Sources */,
+				925C646620D6F5DC00E98943 /* MonAnnotation.swift in Sources */,
+				925C646420D6F5BF00E98943 /* Poubelle.swift in Sources */,
+				925C645E20D6EFEA00E98943 /* CarteController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
