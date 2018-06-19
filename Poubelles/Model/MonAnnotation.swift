@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import AddressBook
 
 class MonAnnotation: NSObject, MKAnnotation {
     
@@ -21,5 +22,18 @@ class MonAnnotation: NSObject, MKAnnotation {
         self.subtitle = adresse
         self.coordinate = coordonnes
         super.init()
+    }
+    
+    var subtitles: String? {
+        return subtitle
+    }
+    
+    func mapItem() -> MKMapItem {
+        let adressDictionary = [String(kABPersonAddressStreetKey) : subtitles ]
+        let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: adressDictionary)
+        let mapItem = MKMapItem(placemark: placemark)
+        
+        mapItem.name = "\(title) \(subtitles)"
+        return mapItem
     }
 }

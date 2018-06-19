@@ -27,41 +27,25 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         super.viewDidLoad()
         pickerView.delegate = self
         pickerView.dataSource = self
+        
         carte.showsUserLocation = true
+        carte.showsScale = true
+        carte.showsCompass = true
         carte.register(AnnotationVue.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
         miseEnPlace()
         obtenirDonneesDepuisJSON()
         
         labelNames.append("Poubelles publique")
         labelNames.append("Ecart poubelle du Mardi")
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         pickerView.selectRow(0, inComponent: 0, animated: true)
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return labelNames.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return labelNames[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selected = row
-        if (selected == 0) {
-            urlString = "https://www.data.gouv.fr/s/resources/monuments-historiques-francais/20150408-163911/monuments.json"
-            obtenirDonneesDepuisJSON()
-        } else if (selected == 1) {
-            urlString = "http://www.jefnewtech.be/Map/test.json"
-            obtenirDonneesDepuisJSON()
-        }
-        print(urlString)
+        self.carte.removeAnnotations(self.carte.annotations)
+        urlString = "https://www.data.gouv.fr/s/resources/monuments-historiques-francais/20150408-163911/monuments.json"
+        obtenirDonneesDepuisJSON()
     }
     
     func obtenirDonneesDepuisJSON() {
@@ -104,6 +88,39 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             
         }
     }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return labelNames.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return labelNames[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selected = row
+        if (selected == 0) {
+            self.carte.removeAnnotations(self.carte.annotations)
+            urlString = "https://www.data.gouv.fr/s/resources/monuments-historiques-francais/20150408-163911/monuments.json"
+            obtenirDonneesDepuisJSON()
+        } else if (selected == 1) {
+            self.carte.removeAnnotations(self.carte.annotations)
+            urlString = "https://www.jefnewtech.be/Map/test.json"
+            obtenirDonneesDepuisJSON()
+        }
+        print(urlString)
+    }
+    
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        let location = view.annotation as! MonAnnotation
+//        let lauchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
+//        location.mapItem().openInMaps(launchOptions: lauchOptions)
+//    }
+    
     
     @IBAction func meLocaliser(_ sender: Any) {
         locationManager.requestAlwaysAuthorization()
