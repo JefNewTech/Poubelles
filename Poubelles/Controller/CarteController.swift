@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+
 class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var carte: MKMapView!
@@ -18,7 +19,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     
     var urlString = ""
     var locationManager = CLLocationManager()
-    var poubelles = [Poubelles]()
+    var poubelles: Poubelles?
     
     var labelNames: [String] = Array()
     var selected = 0
@@ -31,6 +32,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         carte.showsUserLocation = true
         carte.showsScale = true
         carte.showsCompass = true
+        
         carte.register(AnnotationVue.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         miseEnPlace()
@@ -44,16 +46,18 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     override func viewWillAppear(_ animated: Bool) {
         pickerView.selectRow(0, inComponent: 0, animated: true)
         self.carte.removeAnnotations(self.carte.annotations)
-        urlString = "https://www.data.gouv.fr/s/resources/monuments-historiques-francais/20150408-163911/monuments.json"
+        urlString = "http://jefnewtech.be/Map/Poubelles%20publique.json"
         obtenirDonneesDepuisJSON()
     }
+    
+
     
     func obtenirDonneesDepuisJSON() {
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard data != nil else { return }
             do {
-                self.poubelles = try JSONDecoder().decode([Poubelles].self, from: data!)
+                self.poubelles = try JSONDecoder().decode(Poubelles.self, from: data!)
                 DispatchQueue.main.async {
                     self.obtenirAnnotations()
                 }
@@ -65,30 +69,31 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     func obtenirAnnotations() {
-        for poubelle in self.poubelles {
-            if let latitudeString = poubelle.latitude, let longitudeString = poubelle.longitude {
-                if let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
+        for poubelle in (poubelles?.features)! {
+            if let latitudeString = poubelle.geometry.coordinates, let longitudeString = poubelle.geometry.coordinates {
+                if let latitude = latitudeString, let longitude = longitudeString {
                     let coordonnes = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                    let titre = poubelle.name ?? ""
+                    let titre = poubelle.properties.name
+                    let cluster = "identifier"
                     let location = CLLocation(latitude: latitude, longitude: longitude)
                     MonGeocoder.obtenir.adresseDepuis(location, completion: { (adresse, erreur) -> (Void) in
                         var monAdresse = ""
                         if adresse != nil {
                             monAdresse = adresse!
                         }
-                        let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, coordonnes: coordonnes)
+                        let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, coordonnes: coordonnes, clusteringIdentifier: cluster)
                         self.carte.addAnnotation(monAnnotation)
                     })
                 }
             }
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: Double(poubelle.latitude!)!, longitude: Double(poubelle.longitude!)!)
-            annotation.title = poubelle.name ?? "Pas de nom"
+            annotation.title = poubelle.properties.name
             self.carte.addAnnotation(annotation)
-            
+    
         }
     }
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -105,7 +110,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selected = row
         if (selected == 0) {
             self.carte.removeAnnotations(self.carte.annotations)
-            urlString = "https://www.data.gouv.fr/s/resources/monuments-historiques-francais/20150408-163911/monuments.json"
+            urlString = "http://jefnewtech.be/Map/Poubelles%20publique.json"
             obtenirDonneesDepuisJSON()
         } else if (selected == 1) {
             self.carte.removeAnnotations(self.carte.annotations)
@@ -115,11 +120,6 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         print(urlString)
     }
     
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        let location = view.annotation as! MonAnnotation
-//        let lauchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
-//        location.mapItem().openInMaps(launchOptions: lauchOptions)
-//    }
     
     
     @IBAction func meLocaliser(_ sender: Any) {

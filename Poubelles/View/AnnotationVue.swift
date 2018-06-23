@@ -14,7 +14,9 @@ class AnnotationVue: MKAnnotationView {
     override var annotation: MKAnnotation? {
         willSet {
             guard (newValue as? MonAnnotation) != nil else { return }
-            image = #imageLiteral(resourceName: "Group")
+//            image = #imageLiteral(resourceName: "Group")
+            
+            clusteringIdentifier = "identifier"
         }
     }
     

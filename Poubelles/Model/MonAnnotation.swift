@@ -15,25 +15,14 @@ class MonAnnotation: NSObject, MKAnnotation {
     var title: String?
     var subtitle: String?
     let image = #imageLiteral(resourceName: "Group")
+    let clusteringIdentifier: String?
     var coordinate: CLLocationCoordinate2D
     
-    init(titre: String, adresse: String, coordonnes: CLLocationCoordinate2D) {
+    init(titre: String, adresse: String, coordonnes: CLLocationCoordinate2D, clusteringIdentifier: String) {
         self.title = titre
         self.subtitle = adresse
         self.coordinate = coordonnes
+        self.clusteringIdentifier = clusteringIdentifier
         super.init()
-    }
-    
-    var subtitles: String? {
-        return subtitle
-    }
-    
-    func mapItem() -> MKMapItem {
-        let adressDictionary = [String(kABPersonAddressStreetKey) : subtitles ]
-        let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: adressDictionary)
-        let mapItem = MKMapItem(placemark: placemark)
-        
-        mapItem.name = "\(title) \(subtitles)"
-        return mapItem
     }
 }
