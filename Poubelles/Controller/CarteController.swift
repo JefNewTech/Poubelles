@@ -60,6 +60,8 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
                 self.poubelles = try JSONDecoder().decode(Poubelles.self, from: data!)
                 DispatchQueue.main.async {
                     self.obtenirAnnotations()
+                    print(self.poubelles?.features[1].properties.name as Any)
+                    print(self.poubelles?.features[1].geometry.coordinates[0] ?? "")
                 }
                 
             } catch {
@@ -70,12 +72,12 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     
     func obtenirAnnotations() {
         for poubelle in (poubelles?.features)! {
-            if let latitudeString = poubelle.geometry.coordinates, let longitudeString = poubelle.geometry.coordinates {
-                if let latitude = latitudeString, let longitude = longitudeString {
-                    let coordonnes = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            if let latitudeString = self.poubelles?.features[0].geometry.coordinates[1], let longitudeString = self.poubelles?.features[0].geometry.coordinates[0] {
+//                if let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
+                    let coordonnes = CLLocationCoordinate2D(latitude: latitudeString, longitude: longitudeString)
                     let titre = poubelle.properties.name
                     let cluster = "identifier"
-                    let location = CLLocation(latitude: latitude, longitude: longitude)
+                    let location = CLLocation(latitude: latitudeString, longitude: longitudeString)
                     MonGeocoder.obtenir.adresseDepuis(location, completion: { (adresse, erreur) -> (Void) in
                         var monAdresse = ""
                         if adresse != nil {
@@ -84,10 +86,10 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
                         let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, coordonnes: coordonnes, clusteringIdentifier: cluster)
                         self.carte.addAnnotation(monAnnotation)
                     })
-                }
+                
             }
             let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: Double(poubelle.latitude!)!, longitude: Double(poubelle.longitude!)!)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: (self.poubelles?.features[0].geometry.coordinates[1])!, longitude: (self.poubelles?.features[0].geometry.coordinates[0])!)
             annotation.title = poubelle.properties.name
             self.carte.addAnnotation(annotation)
     
