@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 
-class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, MKMapViewDelegate {
     
     @IBOutlet weak var carte: MKMapView!
     @IBOutlet weak var maPositionBouton: UIButton!
@@ -28,16 +28,17 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         super.viewDidLoad()
         pickerView.delegate = self
         pickerView.dataSource = self
+        carte.delegate = self
         
         carte.showsUserLocation = true
         carte.showsScale = true
         carte.showsCompass = true
         
-        carte.register(AnnotationVue.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        
+//       carte.register(AnnotationVue.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         miseEnPlace()
         obtenirDonneesDepuisJSON()
         
+//MARK PickerView Label
         labelNames.append("Poubelles publique")
         labelNames.append("Ecart poubelle du Mardi")
         
@@ -60,8 +61,6 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
                 self.poubelles = try JSONDecoder().decode(Poubelles.self, from: data!)
                 DispatchQueue.main.async {
                     self.obtenirAnnotations()
-                    print(self.poubelles?.features[1].properties.name as Any)
-                    print(self.poubelles?.features[1].geometry.coordinates[0] ?? "")
                 }
                 
             } catch {
@@ -71,31 +70,45 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     func obtenirAnnotations() {
-        for poubelle in (poubelles?.features)! {
-            if let latitudeString = self.poubelles?.features[0].geometry.coordinates[1], let longitudeString = self.poubelles?.features[0].geometry.coordinates[0] {
-//                if let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
-                    let coordonnes = CLLocationCoordinate2D(latitude: latitudeString, longitude: longitudeString)
-                    let titre = poubelle.properties.name
-                    let cluster = "identifier"
-                    let location = CLLocation(latitude: latitudeString, longitude: longitudeString)
-                    MonGeocoder.obtenir.adresseDepuis(location, completion: { (adresse, erreur) -> (Void) in
-                        var monAdresse = ""
-                        if adresse != nil {
-                            monAdresse = adresse!
-                        }
-                        let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, coordonnes: coordonnes, clusteringIdentifier: cluster)
-                        self.carte.addAnnotation(monAnnotation)
-                    })
-                
-            }
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2D(latitude: (self.poubelles?.features[0].geometry.coordinates[1])!, longitude: (self.poubelles?.features[0].geometry.coordinates[0])!)
-            annotation.title = poubelle.properties.name
-            self.carte.addAnnotation(annotation)
-    
+        guard let poubellesNonOptionnelle = self.poubelles else { return }
+        
+        for poubelle in poubellesNonOptionnelle.features {
+            let latitude = Double(poubelle.geometry.coordinates[1])
+            let longitude = Double(poubelle.geometry.coordinates[0])
+//            print(latitude)
+            
+            // if let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
+            let coordonnes = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            let titre = poubelle.properties.name
+            let location = CLLocation(latitude: latitude, longitude: longitude)
+            MonGeocoder.obtenir.adresseDepuis(location, completion: { (adresse, erreur) -> (Void) in
+                var monAdresse = ""
+                if adresse != nil {
+                    monAdresse = adresse!
+                }
+                let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, coordonnes: coordonnes)
+                self.carte.addAnnotation(monAnnotation)
+            })
         }
     }
-
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var annotationViewPoubelle = MKMarkerAnnotationView()
+        guard annotation is MonAnnotation else { return  nil }
+        let identifier = "Poubelle"
+        if let dequedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            annotationViewPoubelle = dequedView
+        }else {
+            annotationViewPoubelle = MKMarkerAnnotationView(annotation: annotationViewPoubelle as? MKAnnotation, reuseIdentifier: identifier)
+        }
+//        annotationViewPoubelle.markerTintColor = UIColor.red
+        annotationViewPoubelle.glyphImage = UIImage(named: "poubelles")
+        annotationViewPoubelle.clusteringIdentifier = "identifier"
+        
+        return annotationViewPoubelle
+    }
+    
+//MARK PickerVIew
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -123,7 +136,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     
-    
+//MARK BUTTON
     @IBAction func meLocaliser(_ sender: Any) {
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
