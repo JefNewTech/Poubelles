@@ -18,6 +18,7 @@ struct Features: Decodable {
 }
 struct properties: Decodable {
     let name: String
+    let desc: String
 }
 struct geometry: Decodable {
     let coordinates: [Double]

@@ -8,7 +8,7 @@
 
 import UIKit
 import MapKit
-
+import Contacts
 
 class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, MKMapViewDelegate {
     
@@ -41,13 +41,14 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
 //MARK PickerView Label
         labelNames.append("Poubelles publique")
         labelNames.append("Ecart poubelle du Mardi")
+        labelNames.append("Marche à bâton")
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         pickerView.selectRow(0, inComponent: 0, animated: true)
         self.carte.removeAnnotations(self.carte.annotations)
-        urlString = "http://jefnewtech.be/Map/Poubelles%20publique.json"
+        urlString = "http://jefnewtech.be/Map/Poubelles%20publique.geojson"
         obtenirDonneesDepuisJSON()
     }
     
@@ -91,22 +92,43 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             })
         }
     }
+// MARK Itinéraire vers le point séléctioné 
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        
+        let selectedLoc = view.annotation
+        
+        print("Annotation '\(String(describing: selectedLoc?.title!))' has been selected")
+        let currentLocMapItem = MKMapItem.forCurrentLocation()
+        let selectedPlacemark = MKPlacemark(coordinate: (selectedLoc?.coordinate)!, addressDictionary: nil)
+        let selectedMapItem = MKMapItem(placemark: selectedPlacemark)
+        selectedMapItem.name = (selectedLoc?.title)!
+        let mapItems = [currentLocMapItem, selectedMapItem]
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+        
+        MKMapItem.openMaps(with: mapItems, launchOptions:launchOptions)
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         var annotationViewPoubelle = MKMarkerAnnotationView()
         guard annotation is MonAnnotation else { return  nil }
         let identifier = "Poubelle"
+        
         if let dequedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
             annotationViewPoubelle = dequedView
         }else {
             annotationViewPoubelle = MKMarkerAnnotationView(annotation: annotationViewPoubelle as? MKAnnotation, reuseIdentifier: identifier)
         }
-//        annotationViewPoubelle.markerTintColor = UIColor.red
+        //        annotationViewPoubelle.markerTintColor = UIColor.red
         annotationViewPoubelle.glyphImage = UIImage(named: "poubelles")
         annotationViewPoubelle.clusteringIdentifier = "identifier"
+        annotationViewPoubelle.canShowCallout = true
+        annotationViewPoubelle.calloutOffset = CGPoint(x: -5, y: 5)
+        annotationViewPoubelle.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         
         return annotationViewPoubelle
     }
+    
     
 //MARK PickerVIew
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -125,11 +147,15 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selected = row
         if (selected == 0) {
             self.carte.removeAnnotations(self.carte.annotations)
-            urlString = "http://jefnewtech.be/Map/Poubelles%20publique.json"
+            urlString = "http://jefnewtech.be/Map/Poubelles%20publique.geojson"
             obtenirDonneesDepuisJSON()
         } else if (selected == 1) {
             self.carte.removeAnnotations(self.carte.annotations)
             urlString = "https://www.jefnewtech.be/Map/test.json"
+            obtenirDonneesDepuisJSON()
+        } else if (selected == 2) {
+            self.carte.removeAnnotations(self.carte.annotations)
+            urlString = "http://jefnewtech.be/Map/Marche%20a%20baton.geojson"
             obtenirDonneesDepuisJSON()
         }
         print(urlString)
