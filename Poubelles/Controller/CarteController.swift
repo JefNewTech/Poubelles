@@ -147,7 +147,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selected = row
         if (selected == 0) {
             self.carte.removeAnnotations(self.carte.annotations)
-            urlString = "http://jefnewtech.be/Map/Poubelles%20publique.geojson"
+            urlString = UrlDeBase + PoubellePublique
             obtenirDonneesDepuisJSON()
         } else if (selected == 1) {
             self.carte.removeAnnotations(self.carte.annotations)
@@ -155,7 +155,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             obtenirDonneesDepuisJSON()
         } else if (selected == 2) {
             self.carte.removeAnnotations(self.carte.annotations)
-            urlString = "http://jefnewtech.be/Map/Marche%20a%20baton.geojson"
+            urlString = UrlDeBase + MarcheABaton
             obtenirDonneesDepuisJSON()
         }
         print(urlString)

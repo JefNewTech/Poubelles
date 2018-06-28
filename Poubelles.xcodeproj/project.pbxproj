@@ -18,6 +18,7 @@
 		925C646620D6F5DC00E98943 /* MonAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646520D6F5DC00E98943 /* MonAnnotation.swift */; };
 		925C646820D6F5F300E98943 /* MonGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646720D6F5F300E98943 /* MonGeocoder.swift */; };
 		925C646B20D95CC000E98943 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 925C646A20D95CC000E98943 /* MapKit.framework */; };
+		925D43B820E54A69000EFC55 /* Lien.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D43B720E54A69000EFC55 /* Lien.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		925C646520D6F5DC00E98943 /* MonAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonAnnotation.swift; sourceTree = "<group>"; };
 		925C646720D6F5F300E98943 /* MonGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonGeocoder.swift; sourceTree = "<group>"; };
 		925C646A20D95CC000E98943 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		925D43B720E54A69000EFC55 /* Lien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lien.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 		925C644620D6EF4900E98943 /* Poubelles */ = {
 			isa = PBXGroup;
 			children = (
+				925D43B620E54A34000EFC55 /* Resources */,
 				925C645C20D6EFA500E98943 /* Storyboard */,
 				925C645920D6EF7400E98943 /* Model */,
 				925C645A20D6EF7E00E98943 /* View */,
@@ -121,6 +124,14 @@
 				925C646A20D95CC000E98943 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		925D43B620E54A34000EFC55 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				925D43B720E54A69000EFC55 /* Lien.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +215,7 @@
 				925C646820D6F5F300E98943 /* MonGeocoder.swift in Sources */,
 				925C646020D6F58500E98943 /* CLLocationExtension.swift in Sources */,
 				925C646620D6F5DC00E98943 /* MonAnnotation.swift in Sources */,
+				925D43B820E54A69000EFC55 /* Lien.swift in Sources */,
 				925C646420D6F5BF00E98943 /* Poubelle.swift in Sources */,
 				925C645E20D6EFEA00E98943 /* CarteController.swift in Sources */,
 			);
