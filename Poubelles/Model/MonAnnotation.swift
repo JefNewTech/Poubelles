@@ -14,12 +14,13 @@ class MonAnnotation: NSObject, MKAnnotation {
     
     var title: String?
     var subtitle: String?
-    let image = #imageLiteral(resourceName: "Group")
+    var desc: String?
     var coordinate: CLLocationCoordinate2D
     
-    init(titre: String, adresse: String, coordonnes: CLLocationCoordinate2D) {
+    init(titre: String, adresse: String, descr: String, coordonnes: CLLocationCoordinate2D) {
         self.title = titre
         self.subtitle = adresse
+        self.desc = descr
         self.coordinate = coordonnes
         super.init()
     }

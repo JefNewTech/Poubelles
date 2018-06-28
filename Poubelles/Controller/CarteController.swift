@@ -48,7 +48,8 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     override func viewWillAppear(_ animated: Bool) {
         pickerView.selectRow(0, inComponent: 0, animated: true)
         self.carte.removeAnnotations(self.carte.annotations)
-        urlString = "http://jefnewtech.be/Map/Poubelles%20publique.geojson"
+        urlString = UrlDeBase + PoubellePublique
+        print(urlString)
         obtenirDonneesDepuisJSON()
     }
     
@@ -81,13 +82,14 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             // if let latitude = Double(latitudeString), let longitude = Double(longitudeString) {
             let coordonnes = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             let titre = poubelle.properties.name
+            let desc = poubelle.properties.desc
             let location = CLLocation(latitude: latitude, longitude: longitude)
             MonGeocoder.obtenir.adresseDepuis(location, completion: { (adresse, erreur) -> (Void) in
                 var monAdresse = ""
                 if adresse != nil {
                     monAdresse = adresse!
                 }
-                let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, coordonnes: coordonnes)
+                let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, descr: desc, coordonnes: coordonnes)
                 self.carte.addAnnotation(monAnnotation)
             })
         }
@@ -113,7 +115,6 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         var annotationViewPoubelle = MKMarkerAnnotationView()
         guard annotation is MonAnnotation else { return  nil }
         let identifier = "Poubelle"
-        
         if let dequedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
             annotationViewPoubelle = dequedView
         }else {
@@ -151,7 +152,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             obtenirDonneesDepuisJSON()
         } else if (selected == 1) {
             self.carte.removeAnnotations(self.carte.annotations)
-            urlString = "https://www.jefnewtech.be/Map/test.json"
+            urlString = ""
             obtenirDonneesDepuisJSON()
         } else if (selected == 2) {
             self.carte.removeAnnotations(self.carte.annotations)
