@@ -13,11 +13,12 @@
 		925C645220D6EF4B00E98943 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 925C645020D6EF4B00E98943 /* LaunchScreen.storyboard */; };
 		925C645E20D6EFEA00E98943 /* CarteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C645D20D6EFEA00E98943 /* CarteController.swift */; };
 		925C646020D6F58500E98943 /* CLLocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C645F20D6F58500E98943 /* CLLocationExtension.swift */; };
-		925C646220D6F5A700E98943 /* AnnotationVue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646120D6F5A700E98943 /* AnnotationVue.swift */; };
 		925C646420D6F5BF00E98943 /* Poubelle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646320D6F5BF00E98943 /* Poubelle.swift */; };
 		925C646620D6F5DC00E98943 /* MonAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646520D6F5DC00E98943 /* MonAnnotation.swift */; };
 		925C646820D6F5F300E98943 /* MonGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C646720D6F5F300E98943 /* MonGeocoder.swift */; };
 		925C646B20D95CC000E98943 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 925C646A20D95CC000E98943 /* MapKit.framework */; };
+		925C922420E90E7F005CDC01 /* CustomCallout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 925C922320E90E7F005CDC01 /* CustomCallout.xib */; };
+		925C922620E90F41005CDC01 /* CustomCallout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925C922520E90F41005CDC01 /* CustomCallout.swift */; };
 		925D43B820E54A69000EFC55 /* Lien.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D43B720E54A69000EFC55 /* Lien.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,11 +31,12 @@
 		925C645320D6EF4B00E98943 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		925C645D20D6EFEA00E98943 /* CarteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarteController.swift; sourceTree = "<group>"; };
 		925C645F20D6F58500E98943 /* CLLocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationExtension.swift; sourceTree = "<group>"; };
-		925C646120D6F5A700E98943 /* AnnotationVue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationVue.swift; sourceTree = "<group>"; };
 		925C646320D6F5BF00E98943 /* Poubelle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poubelle.swift; sourceTree = "<group>"; };
 		925C646520D6F5DC00E98943 /* MonAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonAnnotation.swift; sourceTree = "<group>"; };
 		925C646720D6F5F300E98943 /* MonGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonGeocoder.swift; sourceTree = "<group>"; };
 		925C646A20D95CC000E98943 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		925C922320E90E7F005CDC01 /* CustomCallout.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCallout.xib; sourceTree = "<group>"; };
+		925C922520E90F41005CDC01 /* CustomCallout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCallout.swift; sourceTree = "<group>"; };
 		925D43B720E54A69000EFC55 /* Lien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lien.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,7 +97,8 @@
 		925C645A20D6EF7E00E98943 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				925C646120D6F5A700E98943 /* AnnotationVue.swift */,
+				925C922520E90F41005CDC01 /* CustomCallout.swift */,
+				925C922320E90E7F005CDC01 /* CustomCallout.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				925C645220D6EF4B00E98943 /* LaunchScreen.storyboard in Resources */,
+				925C922420E90E7F005CDC01 /* CustomCallout.xib in Resources */,
 				925C644F20D6EF4B00E98943 /* Assets.xcassets in Resources */,
 				925C644D20D6EF4900E98943 /* Main.storyboard in Resources */,
 			);
@@ -211,11 +215,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				925C644820D6EF4900E98943 /* AppDelegate.swift in Sources */,
-				925C646220D6F5A700E98943 /* AnnotationVue.swift in Sources */,
 				925C646820D6F5F300E98943 /* MonGeocoder.swift in Sources */,
 				925C646020D6F58500E98943 /* CLLocationExtension.swift in Sources */,
 				925C646620D6F5DC00E98943 /* MonAnnotation.swift in Sources */,
 				925D43B820E54A69000EFC55 /* Lien.swift in Sources */,
+				925C922620E90F41005CDC01 /* CustomCallout.swift in Sources */,
 				925C646420D6F5BF00E98943 /* Poubelle.swift in Sources */,
 				925C645E20D6EFEA00E98943 /* CarteController.swift in Sources */,
 			);

@@ -20,6 +20,8 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     var urlString = ""
     var locationManager = CLLocationManager()
     var poubelles: Poubelles?
+    var imagesGlyph = UIImage()
+    var imageRightCallout = UIImage(named: "")
     
     var labelNames: [String] = Array()
     var selected = 0
@@ -28,32 +30,27 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         super.viewDidLoad()
         pickerView.delegate = self
         pickerView.dataSource = self
-        carte.delegate = self
         
+        carte.delegate = self
         carte.showsUserLocation = true
         carte.showsScale = true
         carte.showsCompass = true
         
-//       carte.register(AnnotationVue.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         miseEnPlace()
         obtenirDonneesDepuisJSON()
         
-//MARK PickerView Label
+// MARK PickerView Label
         labelNames.append("Poubelles publique")
         labelNames.append("Ecart poubelle du Mardi")
         labelNames.append("Marche à bâton")
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+// MARK Charge le 1 JSON du pickerView au chargement de l'appli
         pickerView.selectRow(0, inComponent: 0, animated: true)
         self.carte.removeAnnotations(self.carte.annotations)
         urlString = UrlDeBase + PoubellePublique
-        print(urlString)
+        imagesGlyph = UIImage(named: "poubelles")!
         obtenirDonneesDepuisJSON()
+        
     }
-    
-
     
     func obtenirDonneesDepuisJSON() {
         guard let url = URL(string: urlString) else { return }
@@ -75,6 +72,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         guard let poubellesNonOptionnelle = self.poubelles else { return }
         
         for poubelle in poubellesNonOptionnelle.features {
+            imageRightCallout = UIImage(named: poubelle.properties.icones)
             let latitude = Double(poubelle.geometry.coordinates[1])
             let longitude = Double(poubelle.geometry.coordinates[0])
 //            print(latitude)
@@ -89,26 +87,10 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
                 if adresse != nil {
                     monAdresse = adresse!
                 }
-                let monAnnotation = MonAnnotation(titre: titre, adresse: monAdresse, descr: desc, coordonnes: coordonnes)
+                let monAnnotation = MonAnnotation(titre: titre, adresse: desc + "\n" + monAdresse, descr: "", coordonnes: coordonnes)
                 self.carte.addAnnotation(monAnnotation)
             })
         }
-    }
-// MARK Itinéraire vers le point séléctioné 
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl) {
-        
-        let selectedLoc = view.annotation
-        
-        print("Annotation '\(String(describing: selectedLoc?.title!))' has been selected")
-        let currentLocMapItem = MKMapItem.forCurrentLocation()
-        let selectedPlacemark = MKPlacemark(coordinate: (selectedLoc?.coordinate)!, addressDictionary: nil)
-        let selectedMapItem = MKMapItem(placemark: selectedPlacemark)
-        selectedMapItem.name = (selectedLoc?.title)!
-        let mapItems = [currentLocMapItem, selectedMapItem]
-        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-        
-        MKMapItem.openMaps(with: mapItems, launchOptions:launchOptions)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -120,16 +102,52 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         }else {
             annotationViewPoubelle = MKMarkerAnnotationView(annotation: annotationViewPoubelle as? MKAnnotation, reuseIdentifier: identifier)
         }
-        //        annotationViewPoubelle.markerTintColor = UIColor.red
-        annotationViewPoubelle.glyphImage = UIImage(named: "poubelles")
+        
+        annotationViewPoubelle.glyphImage = imagesGlyph
         annotationViewPoubelle.clusteringIdentifier = "identifier"
         annotationViewPoubelle.canShowCallout = true
-        annotationViewPoubelle.calloutOffset = CGPoint(x: -5, y: 5)
-        annotationViewPoubelle.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        
+        
+        let subtitleLabel = UILabel()
+        subtitleLabel.text = annotation.subtitle!
+        subtitleLabel.numberOfLines = 0
+        subtitleLabel.font = UIFont.systemFont(ofSize: 14)
+        subtitleLabel.textColor = .lightGray
+        subtitleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        
+        annotationViewPoubelle.detailCalloutAccessoryView = subtitleLabel
+        
+        let imageleft = UIImage(named: "ios11maps") as UIImage?
+        let navigationButton = UIButton(type: .custom) as UIButton
+        navigationButton.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        navigationButton.setImage(imageleft, for: .normal)
+        annotationViewPoubelle.leftCalloutAccessoryView = navigationButton
+        
+        let imageright = imageRightCallout
+        let rightButton = UIButton(type: .custom) as UIButton
+        rightButton.frame = CGRect(x: 50, y: 50, width: 50, height: 50)
+        rightButton.setImage(imageright, for: .normal)
+        annotationViewPoubelle.rightCalloutAccessoryView = rightButton
         
         return annotationViewPoubelle
     }
     
+    // MARK Itinéraire vers le point séléctioné
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
+        
+        let selectedLoc = view.annotation
+        
+//        print("Annotation '\(String(describing: selectedLoc?.title!))' has been selected")
+        let currentLocMapItem = MKMapItem.forCurrentLocation()
+        let selectedPlacemark = MKPlacemark(coordinate: (selectedLoc?.coordinate)!, addressDictionary: nil)
+        let selectedMapItem = MKMapItem(placemark: selectedPlacemark)
+        selectedMapItem.name = (selectedLoc?.title)!
+        let mapItems = [currentLocMapItem, selectedMapItem]
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+        
+        MKMapItem.openMaps(with: mapItems, launchOptions:launchOptions)
+    }
     
 //MARK PickerVIew
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -149,6 +167,7 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         if (selected == 0) {
             self.carte.removeAnnotations(self.carte.annotations)
             urlString = UrlDeBase + PoubellePublique
+            imagesGlyph = UIImage(named: "poubelles")!
             obtenirDonneesDepuisJSON()
         } else if (selected == 1) {
             self.carte.removeAnnotations(self.carte.annotations)
@@ -157,12 +176,11 @@ class CarteController: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         } else if (selected == 2) {
             self.carte.removeAnnotations(self.carte.annotations)
             urlString = UrlDeBase + MarcheABaton
+            imagesGlyph = UIImage(named: "Group")!
             obtenirDonneesDepuisJSON()
         }
-        print(urlString)
     }
-    
-    
+
 //MARK BUTTON
     @IBAction func meLocaliser(_ sender: Any) {
         locationManager.requestAlwaysAuthorization()

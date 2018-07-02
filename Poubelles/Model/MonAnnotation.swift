@@ -8,13 +8,13 @@
 
 import UIKit
 import MapKit
-import AddressBook
 
 class MonAnnotation: NSObject, MKAnnotation {
     
     var title: String?
     var subtitle: String?
     var desc: String?
+    var icones: String?
     var coordinate: CLLocationCoordinate2D
     
     init(titre: String, adresse: String, descr: String, coordonnes: CLLocationCoordinate2D) {

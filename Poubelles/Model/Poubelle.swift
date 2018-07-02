@@ -11,7 +11,6 @@ import Foundation
 struct Poubelles: Decodable {
     let features: [Features]
 }
-
 struct Features: Decodable {
     let properties: properties
     let geometry: geometry
@@ -19,6 +18,7 @@ struct Features: Decodable {
 struct properties: Decodable {
     let name: String
     let desc: String
+    let icones: String
 }
 struct geometry: Decodable {
     let coordinates: [Double]
